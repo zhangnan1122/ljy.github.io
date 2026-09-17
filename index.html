@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>惊喜页面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: "微软雅黑", sans-serif;
+        }
+        .card {
+            background: #fff;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        h1 {
+            color: #222;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+        .name {
+            color: #409eff;
+        }
+        #btn {
+            padding: 14px 35px;
+            font-size: 17px;
+            background-color: #409eff;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+        #btn:hover {
+            background-color: #287ed8;
+            transform: scale(1.05);
+        }
+
+        /*悬浮弹窗遮罩层*/
+        .mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s;
+            z-index:999;
+        }
+        .mask.show{
+            opacity:1;
+            visibility:visible;
+        }
+        /*弹窗盒子 淡入淡出缩放动画*/
+        .popup{
+            background:#ffffff;
+            padding:32px 40px;
+            border-radius:16px;
+            box-shadow:0 6px 24px rgba(0,0,0,0.15);
+            max-width:340px;
+            transform:scale(0.85);
+            transition: transform 0.35s ease;
+        }
+        .mask.show .popup{
+            transform:scale(1);
+        }
+        .popup-text{
+            font-size:18px;
+            color:#333;
+            text-align:center;
+            line-height:1.7;
+            margin-bottom:24px;
+        }
+        .close-btn{
+            display:block;
+            margin:0 auto;
+            padding:8px 24px;
+            border:none;
+            background:#409eff;
+            color:white;
+            border-radius:25px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1><span class="name">林加阳</span></h1>
+        <button id="btn">点击有惊喜</button>
+    </div>
+
+    <!--悬浮弹窗结构-->
+    <div class="mask" id="mask">
+        <div class="popup">
+            <div class="popup-text" id="popupText"></div>
+            <button class="close-btn" id="closeBtn">知道啦</button>
+        </div>
+    </div>
+
+    <script>
+        const praiseList = [
+            "超级帅气，气质直接拉满！",
+            "人品超好，温柔又靠谱！",
+            "眼光超棒，做事特别稳重！",
+            "浑身闪光点，越看越优秀！",
+            "三观超正，待人真诚又暖心！",
+            "又帅又温柔，真的太迷人啦！",
+            "自带光芒，永远耀眼出众！",
+            "性格超好，温柔且有力量！"
+        ];
+
+        const btn = document.getElementById("btn");
+        const mask = document.getElementById("mask");
+        const popupText = document.getElementById("popupText");
+        const closeBtn = document.getElementById("closeBtn");
+
+        //打开弹窗
+        btn.onclick = function(){
+            const randomIndex = Math.floor(Math.random() * praiseList.length);
+            popupText.innerText = praiseList[randomIndex];
+            mask.classList.add('show');
+        }
+        //关闭弹窗
+        function closePopup(){
+            mask.classList.remove('show');
+        }
+        closeBtn.onclick = closePopup;
+        //点击背景遮罩也能关闭弹窗
+        mask.onclick = function(e){
+            if(e.target === mask) closePopup();
+        }
+    </script>
+</body>
+</html>
